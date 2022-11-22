@@ -1,0 +1,3 @@
+rootProject.name = 'opeanapi-demo'
+include("spec")
+include("app")

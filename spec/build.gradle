@@ -1,0 +1,41 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id "org.openapi.generator" version "6.2.1"
+}
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+openApiValidate {
+    inputSpec = "$projectDir/openapi.yaml"
+}
+
+openApiGenerate {
+    generatorName = "kotlin"
+    inputSpec = "$projectDir/petstore.yaml"
+    outputDir = "$buildDir/generated/client"
+    apiPackage = "org.openapi.example.api"
+    modelPackage = "com.turo.petstore.model"
+    configOptions = [
+            dateLibrary: "java8"
+    ]
+}
+
+task buildStubs(type: GenerateTask) {
+    generatorName = "kotlin-spring"
+    inputSpec = "$projectDir/petstore.yaml"
+    outputDir = "$rootDir/app".toString()
+    groupId = "com.turo.petstore"
+    id = "petstore"
+    packageName = "com.turo.petstore.generated"
+    invokerPackage = "com.turo.petstore"
+    configOptions = [
+            delegatePattern: "true",
+            gradleBuildFile: "false"
+    ]
+}
